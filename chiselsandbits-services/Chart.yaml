@@ -1,0 +1,6 @@
+apiVersion: v2
+name: chiselsandbits-services
+description: Helm ArgoCD Services Specification for the Chisels and Bits project
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

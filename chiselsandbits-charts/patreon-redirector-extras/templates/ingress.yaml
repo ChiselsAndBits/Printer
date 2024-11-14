@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: discord-redirect-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-parchment
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "https://www.patreon.com/chisels_and_bits"
+    external-dns.alpha.kubernetes.io/target: "cluster.ldtteam.com."
+spec:
+  rules:
+    - host: patreon.chisels-and-bits.com
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: parchment-discord
+                port:
+                  number: 443
+  tls:
+    - hosts:
+        - patreon.chisels-and-bits.com
+      secretName: patreon-tls

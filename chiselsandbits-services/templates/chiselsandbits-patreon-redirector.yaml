@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chiselsandbits-patreon-redirector
+  namespace: argocd
+spec:
+  project: chiselsandbits
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: chiselsandbits-patreon-redirector
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: {{ .Values.repository.url }}
+      path: chiselsandbits-charts/patreon-redirector-extras
+      targetRevision: HEAD

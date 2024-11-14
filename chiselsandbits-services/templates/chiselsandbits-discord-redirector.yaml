@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chiselsandbits-discord-redirector
+  namespace: argocd
+spec:
+  project: chiselsandbits
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: chiselsandbits-discord-redirector
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: {{ .Values.repository.url }}
+      path: chiselsandbits-charts/discord-redirector-extras
+      targetRevision: HEAD
